@@ -1,0 +1,82 @@
+﻿@model IEnumerable<LoginReg.Models.Task>
+
+@{
+    ViewBag.Title = "Task";
+}
+
+
+
+<div class="row justify-content-md-start">
+    @if (Session["Firstname"] != null)
+    {
+        <h1>Welcome @Session["Firstname"].ToString()!</h1>
+        <h5>@Session["Email"].ToString()</h5>
+
+    }
+
+    <hr />
+
+</div>
+
+@using (Html.BeginForm("Task", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    <p>
+        @if (ViewBag.Message != null)
+        {
+            <div class="text-info">*@ViewBag.Message</div>
+        }
+
+        @Html.ActionLink("Create New Task", "CreateTask")
+    </p>
+    <table class="table table-bordered">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Status) </th>
+            <th>@Html.DisplayNameFor(model => model.Priority) </th>
+            <th>@Html.DisplayNameFor(model => model.Title) </th>
+            <th>@Html.DisplayNameFor(model => model.Description) </th>
+            <th>@Html.DisplayNameFor(model => model.DueDate) </th>
+
+
+        </tr>
+        @*Getting task details*@
+        @foreach (var item in Model)
+        {       
+            <tr id="dataRow">
+
+                <td>
+                    @*Checking Status value*@
+                    <input @(Convert.ToBoolean(item.Status) == true ? "checked='checked'" : string.Empty)
+                           type="checkbox" id="chkStat" name="ID" value="@item.Id" class="custom-checkbox chkId" />
+                </td>
+
+                <td>@Html.DisplayFor(modelItem => item.Priority)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.DueDate)</td>
+
+                @*Getting and Passing task Id Value*@
+                <td>
+                    @Html.ActionLink("Update", "EditTask", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DelTask", new { id = item.Id })
+                </td>
+            </tr>
+
+        }
+
+    </table>
+
+
+}
+
+
+<hr />
+
+<a href="@Url.Action("Logout", "Home")" class="btn btn-warning">Logout</a>
+
+@section Scripts {
+    <script src="~/Content/js/main.js"></script>
+}

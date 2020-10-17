@@ -1,0 +1,24 @@
+﻿@model LoginReg.Models.User
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row justify-content-md-start">
+    @*Getting Session details*@
+    @if (Session["Firstname"] != null)
+    {
+        <h1>Welcome @Session["Firstname"].ToString()!</h1>
+        <h5>@Session["Email"].ToString()</h5>
+
+        //GET: Home/Task
+        <a href="@Url.Action("Task", "Home")" class="text-info">View Task</a>
+
+        //GET: Home/Logout
+        <hr />
+        <a href="@Url.Action("Logout", "Home")" class="btn btn-warning">Logout</a>
+    }
+
+</div>
+
